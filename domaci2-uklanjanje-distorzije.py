@@ -18,18 +18,18 @@ except:
 
 
 def napravi_projekciju(img, originali):
-    img_w, img_h = img.shape[:2]
+    img_h, img_w = img.shape[:2]
     w = round((tacke[0].dist(tacke[1]) + tacke[2].dist(tacke[3]))/2)
     h = round((tacke[1].dist(tacke[2]) + tacke[3].dist(tacke[0]))/2)
     slike = [Tacka(round((img_w-w)/2), round((img_h-h)/2)), Tacka(round(img_w - w/2), round((img_h-h)/2)),
-             Tacka(round((img_w-w)/2), round(img_h - h/2)), Tacka(round(img_w - w/2), round(img_h - h/2))]
+             Tacka(round(img_w - w/2), round(img_h - h/2)), Tacka(round((img_w-w)/2), round(img_h - h/2))]
     return naivni(originali, slike)
 
 
 
 def napravi_sliku(ime):
     img = cv2.imread(ime)
-    cv2.namedWindow(ime, cv2.WINDOW_AUTOSIZE)
+    cv2.namedWindow(ime, cv2.WINDOW_NORMAL)
     cv2.setWindowProperty(ime, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
     cv2.setMouseCallback(ime, sacuvaj_pixel)
     global kliknuto
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     img = cv2.imread(slika)
     p = napravi_projekciju(img, tacke)
-    normalizovana_slika = cv2.warpPerspective(img, p.m, img.shape[:2])
+    normalizovana_slika = cv2.warpPerspective(img, p.m, (img.shape[1], img.shape[0]))
     cv2.namedWindow('Normalizovana slika', cv2.WINDOW_NORMAL)
     cv2.setWindowProperty('Normalizovana slika', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
     cv2.imshow('Normalizovana slika', normalizovana_slika)
